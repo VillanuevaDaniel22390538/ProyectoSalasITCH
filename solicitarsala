@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Solicitud de Sala</title>
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+                background-image: url('imagenes/fondo.jpg'); /* Fondo similar al de index */
+                background-size: cover;
+                background-position: center;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .logos {
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                max-width: 800px;
+                margin-bottom: 20px;
+                background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+                padding: 10px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            }
+            .logos img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+            .logos img:nth-child(2) {
+                width: 100px; /* Hice el logo ITCH más ancho */
+            }
+            .container {
+                background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+                text-align: center;
+                width: 90%;
+                max-width: 800px;
+                color: white;
+            }
+            .title {
+                font-size: 28px;
+                margin-bottom: 20px;
+                color: #ffcc00; /* Color dorado para el título */
+            }
+            .form-group {
+                margin-bottom: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .form-group label {
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                width: 100%;
+                max-width: 300px;
+            }
+            .form-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: space-between;
+            }
+            .rooms {
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                margin-top: 20px;
+            }
+            .room {
+                background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+                color: white;
+                border-radius: 10px;
+                padding: 20px;
+                width: 45%;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+                transition: background-color 0.3s;
+            }
+            .room h3 {
+                margin: 0 0 10px 0;
+                color: #ffcc00; /* Color dorado para el título */
+            }
+            .search-button {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .search-button:hover {
+                background-color: #0056b3;
+            }
+            .back-button {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background-color: transparent;
+                border: none;
+                color: #ffcc00; /* Color dorado para el botón */
+                font-size: 24px;
+                cursor: pointer;
+            }
+            .available {
+                background-color: #28a745;
+                color: white;
+            }
+            .occupied {
+                background-color: #dc3545;
+                color: white;
+            }
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>    
+    <body>
+        <button class="back-button" onclick="window.location.href='welcome_administrador.php'">&larr;</button>
+        <div class="logos">
+            <img src="imagenes/LogoTECNM.png" alt="Logo TECNM">
+            <img src="imagenes/LogoITCH.png" alt="Logo ITCH">
+        </div>
+        <div class="container">
+            <div class="title">SOLICITUD DE SALA</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id-sala">Sala</label>
+                    <select id="id-sala">
+                        <!-- Opciones de salas se llenarán dinámicamente -->
+                    </select>
+                </div>
+                <div class="form-group hidden">
+                    <label for="nombre-sala">Sala</label>
+                    <input type="text" id="nombre-sala" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="id-docente">Docente</label>
+                    <select id="id-docente">
+                        <!-- Opciones de docentes se llenarán dinámicamente -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nombre-docente">IDDocente</label>
+                    <input type="text" id="nombre-docente" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha solicitada</label>
+                    <input type="date" id="fecha">
+                </div>
+                <div class="form-group">
+                    <label for="hora-inicio">Horario Inicio</label>
+                    <input type="time" id="hora-inicio" step="3600">
+                </div>
+                <div class="form-group">
+                    <label for="hora-fin">Horario Fin</label>
+                    <input type="time" id="hora-fin" step="3600">
+                </div>
+                <div class="form-group">
+                    <label for="observaciones">Observaciones</label>
+                    <textarea id="observaciones" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="id-estado">IDEstado</label>
+                    <select id="id-estado">
+                        <!-- Opciones de estados se llenarán dinámicamente -->
+                    </select>
+                </div>
+                <div class="form-group hidden">
+                    <label for="estado">Estado</label>
+                    <input type="text" id="estado" readonly>
+                </div>
+            </div>
+            <div class="rooms">
+                <div class="room" data-id="1">
+                    <h3>SALA 1</h3>
+                    <p class="availability">Cargando disponibilidad...</p>
+                    <button class="view-schedule-button" data-id="1">VER HORARIOS</button>
+                </div>
+                <div class="room" data-id="2">
+                    <h3>SALA 2</h3>
+                    <p class="availability">Cargando disponibilidad...</p>
+                    <button class="view-schedule-button" data-id="2">VER HORARIOS</button>
+                </div>
+                <div class="room" data-id="3">
+                    <h3>SALA 3</h3>
+                    <p class="availability">Cargando disponibilidad...</p>
+                    <button class="view-schedule-button" data-id="3">VER HORARIOS</button>
+                </div>
+                <div class="room" data-id="4">
+                    <h3>SALA 4</h3>
+                    <p class="availability">Cargando disponibilidad...</p>
+                    <button class="view-schedule-button" data-id="4">VER HORARIOS</button>
+                </div>
+                <div class="room" data-id="5">
+                    <h3>SALA 5</h3>
+                    <p class="availability">Cargando disponibilidad...</p>
+                    <button class="view-schedule-button" data-id="5">VER HORARIOS</button>
+                </div>
+            </div>
+            
+            <button class="search-button">Registrar Horario</button>
+        </div>    
+    <script>
+        //Script para el boton de ver horarios de las salas
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.view-schedule-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const salaId = button.getAttribute('data-id');
+                    window.open(`ver_horarios.html?salaId=${salaId}`, '_blank', 'width=800,height=600');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar las opciones de salas desde la base de datos
+            fetch('obtener_salas.php')
+                .then(response => response.json())
+                .then(data => {
+                    const salaSelect = document.getElementById('id-sala');
+                    data.forEach(sala => {
+                        const option = document.createElement('option');
+                        option.value = sala.IDSala;
+                        option.textContent = sala.IDSala; // Mostrar el ID de la sala
+                        salaSelect.appendChild(option);
+                    });
+
+                    // Actualizar el nombre de la sala seleccionada
+                    salaSelect.addEventListener('change', () => {
+                        const selectedOption = salaSelect.options[salaSelect.selectedIndex];
+                        document.getElementById('nombre-sala').value = selectedOption.textContent;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener las salas:', error);
+                });
+
+            // Cargar las opciones de docentes desde la base de datos
+            fetch('obtener_docentes.php')
+                .then(response => response.json())
+                .then(data => {
+                    const docenteSelect = document.getElementById('id-docente');
+                    data.forEach(docente => {
+                        const option = document.createElement('option');
+                        option.value = docente.IDDocente;
+                        option.textContent = `${docente.Nombres} ${docente.PrimerApellido} ${docente.SegundoApellido}`;
+                        docenteSelect.appendChild(option);
+                    });
+
+                    // Actualizar el ID del docente seleccionado
+                    docenteSelect.addEventListener('change', () => {
+                        const selectedOption = docenteSelect.options[docenteSelect.selectedIndex];
+                        document.getElementById('nombre-docente').value = selectedOption.value; // Mostrar el ID del docente
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener los docentes:', error);
+                });
+
+            // Cargar las opciones de estados desde la base de datos
+            fetch('obtener_estados.php')
+                .then(response => response.json())
+                .then(data => {
+                    const estadoSelect = document.getElementById('id-estado');
+                    data.forEach(estado => {
+                        const option = document.createElement('option');
+                        option.value = estado.IDEstado;
+                        option.textContent = estado.Descripcion; // Mostrar el ID del estado
+                        estadoSelect.appendChild(option);
+                    });
+
+                    // Actualizar la descripción del estado seleccionado
+                    estadoSelect.addEventListener('change', () => {
+                        const selectedOption = estadoSelect.options[estadoSelect.selectedIndex];
+                        document.getElementById('estado').value = selectedOption.textContent; // Mostrar la descripción del estado
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener los estados:', error);
+                });
+
+            // Cargar la disponibilidad de las salas
+            fetch('obtener_disponibilidad_salas.php')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(sala => {
+                        const roomElement = document.querySelector(`.room[data-id="${sala.IDSala}"]`);
+                        if (roomElement) {
+                            roomElement.querySelector('.availability').textContent = sala.disponibilidad;
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener la disponibilidad de las salas:', error);
+                });
+        });
+
+        document.querySelector('.search-button').addEventListener('click', () => {
+            const IDSala = document.getElementById('id-sala').value;
+            const IDDocente = document.getElementById('id-docente').value;
+            const FechaPrestamo = document.getElementById('fecha').value;
+            const HoraInicio = document.getElementById('hora-inicio').value;
+            const HoraFin = document.getElementById('hora-fin').value;
+            const Observaciones = document.getElementById('observaciones').value;
+            const IDEstado = document.getElementById('id-estado').value;
+
+            // Validar que los horarios sean cerrados
+            const inicioMinutos = new Date(`1970-01-01T${HoraInicio}:00`).getMinutes();
+            const finMinutos = new Date(`1970-01-01T${HoraFin}:00`).getMinutes();
+
+            if (inicioMinutos !== 0 || finMinutos !== 0) {
+                alert('Por favor, seleccione horarios cerrados (por ejemplo, 7:00 a 8:00).');
+                return;
+            }
+
+            // Validar que la fecha y hora no sean pasadas
+            const now = new Date();
+            const fechaHoraInicio = new Date(`${FechaPrestamo}T${HoraInicio}`);
+            const fechaHoraFin = new Date(`${FechaPrestamo}T${HoraFin}`);
+
+            if (fechaHoraInicio < now || fechaHoraFin < now) {
+                alert('No se pueden registrar horarios en el pasado.');
+                return;
+            }
+
+            const data = {
+                IDSala,
+                IDDocente,
+                FechaPrestamo,
+                HoraInicio,
+                HoraFin,
+                Observaciones,
+                IDEstado
+            };
+
+            fetch('registrar_horario.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Horario registrado exitosamente');
+                    // Actualizar la disponibilidad de las salas
+                    fetch('obtener_disponibilidad_salas.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(sala => {
+                                const roomElement = document.querySelector(`.room[data-id="${sala.IDSala}"]`);
+                                if (roomElement) {
+                                    roomElement.querySelector('.availability').textContent = sala.disponibilidad;
+                                }
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error al obtener la disponibilidad de las salas:', error);
+                        });
+                } else {
+                    alert('Error al registrar el horario');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al registrar el horario');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Función para actualizar la disponibilidad de las salas
+            const actualizarDisponibilidad = () => {
+                fetch('obtener_estado_salas.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(sala => {
+                            const roomElement = document.querySelector(`.room[data-id="${sala.IDSala}"]`);
+                            if (roomElement) {
+                                roomElement.querySelector('.availability').textContent = sala.estado;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error al actualizar la disponibilidad de las salas:', error);
+                    });
+            };
+
+            // Llamar a la función de actualización cada minuto
+            setInterval(actualizarDisponibilidad, 60000);
+
+            // Llamar a la función de actualización al cargar la página
+            actualizarDisponibilidad();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Función para actualizar la disponibilidad de las salas
+            const actualizarDisponibilidad = () => {
+                fetch('actualizar_disponibilidad_salas.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(sala => {
+                            const roomElement = document.querySelector(`.room[data-id="${sala.IDSala}"]`);
+                            if (roomElement) {
+                                roomElement.querySelector('.availability').textContent = sala.disponibilidad;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error al actualizar la disponibilidad de las salas:', error);
+                    });
+            };
+
+            // Llamar a la función de actualización cada minuto
+            setInterval(actualizarDisponibilidad, 60000);
+
+            // Llamar a la función de actualización al cargar la página
+            actualizarDisponibilidad();
+        });
+    </script>    
+</body>
+</html>

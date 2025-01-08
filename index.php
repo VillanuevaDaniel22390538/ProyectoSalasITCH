@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es"> <!-- Define el idioma del documento -->
+<html lang="es">
 <head>
-    <meta charset="UTF-8"> <!-- Establece la codificación de caracteres a UTF-8 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configuración para dispositivos móviles -->
-    <title>Inicio de Sesión</title> <!-- Título de la página que se muestra en la pestaña del navegador -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
     <style>
         body {
-            font-family: Arial, sans-serif; /* Establece la fuente de la página */
-            margin: 0; /* Elimina los márgenes predeterminados del body */
-            padding: 0; /* Elimina el relleno predeterminado del body */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-image: url('imagenes/fondo.JPG'); /* Imagen de fondo */
             background-size: cover; /* La imagen cubre todo el fondo */
             background-position: center; /* Centra la imagen en el fondo */
@@ -20,7 +20,7 @@
         }
 
         .login-container {
-            background-color: rgba(217, 217, 217, 0.9); /* Fondo gris claro con opacidad */
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
             padding: 40px; /* Espaciado interno del contenedor */
             border-radius: 10px; /* Bordes redondeados */
             width: 400px; /* Ancho fijo del contenedor */
@@ -29,6 +29,7 @@
 
         .login-container h2 {
             text-align: center; /* Centra el título */
+            color: #ffcc00; /* Color dorado para el título */
         }
 
         .input-group {
@@ -56,6 +57,7 @@
             border: none; /* Sin borde */
             border-radius: 5px; /* Bordes redondeados */
             cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el botón */
+            transition: background-color 0.3s;
         }
 
         .login-container button:hover {
@@ -73,30 +75,43 @@
         .login-container a:hover {
             text-decoration: underline; /* Subraya el enlace al pasar el cursor */
         }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+            color: white;
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-container"> <!-- Contenedor principal para el formulario de inicio de sesión -->
-        <h2>Administración del Préstamo de Salas de Cómputo</h2> <!-- Título del formulario -->
+    <div class="login-container">
+        <h2>Administración del Préstamo de Salas de Cómputo</h2>
 
-        <form action="login.php" method="POST"> <!-- Formulario que envía datos a login.php -->
-            <div class="input-group"> <!-- Grupo de entrada para el nombre de usuario -->
-                <label for="username">Usuario:</label> <!-- Etiqueta del campo -->
-                <input type="text" id="username" name="username" required> <!-- Campo de entrada para el nombre de usuario -->
+        <form action="login_process.php" method="POST">
+            <div class="input-group">
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" name="username" required>
             </div>
 
-            <div class="input-group"> <!-- Grupo de entrada para la contraseña -->
-                <label for="password">Contraseña:</label> <!-- Etiqueta del campo -->
-                <input type="password" id="password" name="password" required> <!-- Campo de entrada para la contraseña -->
+            <div class="input-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
             </div>
 
-            <button type="submit">Acceder</button> <!-- Botón para enviar el formulario -->
+            <button type="submit">Acceder</button>
         </form>
 
-        <!-- Enlaces para registro y recuperación de contraseña -->
-        <a href="register.php">¿No tienes cuenta? Regístrate</a> <!-- Enlace que redirige a la página de registro -->
-        <a href="forgot_password.php">¿Olvidaste tu contraseña?</a> <!-- Enlace que redirige a la página de recuperación de contraseña -->
+        <a href="register.php">¿No tienes cuenta? Regístrate</a>
+        <a href="forgot_password.php">¿Olvidaste tu contraseña?</a>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 Administración del Préstamo de Salas de Cómputo. Todos los derechos reservados.
     </div>
 
 </body>

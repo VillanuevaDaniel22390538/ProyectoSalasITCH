@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendación de Sala</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #0056b3;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 400px;
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #004085;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #003366;
+        }
+        .logos {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .logos img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logos">
+            <img src="logo_tecnm.png" alt="Logo TECNM">
+            <img src="logo_itch.png" alt="Logo ITCH">
+        </div>
+        <h1>AGENDACIÓN DE SALA</h1>
+        <form>
+            <div class="form-group">
+                <label for="fecha">Fecha solicitada</label>
+                <input type="date" id="fecha" name="fecha">
+            </div>
+            <div class="form-group">
+                <label for="horario">Horario</label>
+                <input type="time" id="horario" name="horario">
+            </div>
+            <div class="form-group">
+                <label for="carrera">Carrera</label>
+                <select id="carrera" name="carrera">
+                    <option value="">Seleccione</option>
+                    <!-- Add options here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="materia">Materia</label>
+                <select id="materia" name="materia">
+                    <option value="">Seleccione</option>
+                    <!-- Add options here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="docente">Docente</label>
+                <select id="docente" name="docente">
+                    <option value="">Seleccione</option>
+                    <!-- Add options here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="grupo">Grupo</label>
+                <select id="grupo" name="grupo">
+                    <option value="">Seleccione</option>
+                    <!-- Add options here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cant. alum</label>
+                <input type="number" id="cantidad" name="cantidad">
+            </div>
+            <div class="form-group">
+                <label for="sala">No. sala disponible</label>
+                <input type="text" id="sala" name="sala">
+            </div>
+            <div class="form-group">
+                <button type="submit">Confirmar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

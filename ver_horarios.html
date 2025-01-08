@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horarios de Sala</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #0050a7;
+            text-align: center;
+        }
+        .schedule {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .time-slot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+        .available {
+            background-color: #28a745;
+        }
+        .maintenance {
+            background-color: #ff9800;
+        }
+        .occupied {
+            background-color: #dc3545;
+        }
+        .reserved {
+            background-color: #ffc107;
+        }
+        .unoccupied {
+            background-color: #007bff;
+        }
+        .not-available {
+            background-color: #6c757d;
+        }
+        .calendar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Horarios de Sala</div>
+        <div class="calendar">
+            <label for="fecha">Seleccionar Fecha:</label>
+            <input type="date" id="fecha" value="<?php echo date('Y-m-d'); ?>">
+        </div>
+        <div class="schedule" id="schedule">
+            <!-- Horarios se llenarán dinámicamente -->
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const salaId = urlParams.get('salaId');
+            const scheduleContainer = document.getElementById('schedule');
+            const fechaInput = document.getElementById('fecha');
+
+            const cargarHorarios = (fecha) => {
+                fetch(`obtener_horarios.php?salaId=${salaId}&fecha=${fecha}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        scheduleContainer.innerHTML = ''; // Limpiar horarios anteriores
+                        const horarios = generarHorarios();
+                        horarios.forEach(horario => {
+                            const timeSlot = document.createElement('div');
+                            timeSlot.classList.add('time-slot');
+                            timeSlot.textContent = `${horario.horaInicio} - ${horario.horaFin}`;
+
+                            const estado = data.find(h => h.HoraInicio === horario.horaInicio + ':00:00' && h.HoraFin === horario.horaFin + ':00:00');
+                            if (estado) {
+                                switch (estado.IDEstado) {
+                                    case 1:
+                                        timeSlot.classList.add('unoccupied');
+                                        timeSlot.textContent += ' - Desocupado';
+                                        break;
+                                    case 2:
+                                        timeSlot.classList.add('occupied');
+                                        timeSlot.textContent += ' - Ocupado';
+                                        break;
+                                    case 3:
+                                        timeSlot.classList.add('available');
+                                        timeSlot.textContent += ' - Disponible';
+                                        break;
+                                    case 4:
+                                        timeSlot.classList.add('maintenance');
+                                        timeSlot.textContent += ' - En Mantenimiento';
+                                        break;
+                                    case 5:
+                                        timeSlot.classList.add('reserved');
+                                        timeSlot.textContent += ' - Reservada';
+                                        break;
+                                    case 6:
+                                        timeSlot.classList.add('not-available');
+                                        timeSlot.textContent += ' - No Disponible';
+                                        break;
+                                }
+                                timeSlot.textContent += ` (Docente: ${estado.Docente})`;
+                            } else {
+                                timeSlot.classList.add('available');
+                                timeSlot.textContent += ' - Disponible';
+                            }
+
+                            scheduleContainer.appendChild(timeSlot);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener los horarios:', error);
+                    });
+            };
+
+            // Cargar horarios del día seleccionado
+            fechaInput.addEventListener('change', () => {
+                const fecha = fechaInput.value;
+                cargarHorarios(fecha);
+            });
+
+            // Cargar horarios del día actual al cargar la página
+            cargarHorarios(fechaInput.value);
+        });
+
+        function generarHorarios() {
+            const horarios = [];
+            for (let hora = 7; hora <= 22; hora++) {
+                const horaInicio = hora.toString().padStart(2, '0') + ':00';
+                const horaFin = (hora + 1).toString().padStart(2, '0') + ':00';
+                horarios.push({ horaInicio, horaFin });
+            }
+            return horarios;
+        }
+    </script>
+</body>
+</html>
